@@ -8,11 +8,14 @@ TagManager:
   - Peg
   - Barrier
   - DestroyBall
+  - normalpeg
+  - fireflypeg
+  - barrierpeg
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - TopUI
   - Water
   - UI
   - 
