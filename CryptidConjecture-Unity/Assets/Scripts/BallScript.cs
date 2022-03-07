@@ -14,17 +14,16 @@ using UnityEngine;
 
 public class BallScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     public Material ballMaterial;
     Color color = new Color(1f, 0.0290f, 0f, 1f);
     Color color1 = new Color(0.770f, 1f, 0f, 1f);
     Color color2 = new Color(1f, 0.310f, 0f, 1f);
 
     private int bounces = 0;
+
     void Start()
     {
-       ballMaterial.SetColor("_Color", color1);
+       ballMaterial.SetColor("_Color", color1); // set color to green
     }
 
     void OnCollisionEnter(Collision other)
@@ -32,23 +31,14 @@ public class BallScript : MonoBehaviour
         if (other.transform.CompareTag("DestroyBall")){
           if (bounces == 0){
             bounces ++;
-            ballMaterial.SetColor("_Color", color2);
-          }
+            ballMaterial.SetColor("_Color", color2); // change color
+          } // bounce once
           else if (bounces == 1){
             bounces = 0;
             Destroy(gameObject);
-            ballMaterial.SetColor("_Color", color);
-          }
+            ballMaterial.SetColor("_Color", color); // change color back to normal
+          } // destroy after second bounce
+        } // if destroyball
+    } // on collision enter
 
-
-
-        }
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

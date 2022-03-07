@@ -5,7 +5,7 @@
  * Last Edited by: Haley Kelly
  * Last Edited: 2/16/2022
  *
- * Description: Create trailing lines behind projectile. Recycled from MissionDemolition.
+ * Description: UNUSED SCRIPT
  */
 
 

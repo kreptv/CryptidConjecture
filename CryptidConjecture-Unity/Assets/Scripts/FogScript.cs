@@ -1,3 +1,13 @@
+/*
+ * Created by: Haley Kelly
+ * Date Created: 3/6/2022
+ *
+ * Last Edited by: Haley Kelly
+ * Last Edited: 3/7/2022
+ *
+ * Description: Script that controls fog that traverses the screen.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +26,7 @@ public class FogScript : MonoBehaviour
 
   public float yeetAmountx = 0.01f;
   private bool returne = false;
-  private bool pause = false;
+  private bool pause = false; // runs a coroutine that pauses the object before it begins to fall again
 
   private float rotateAmount;
 
@@ -24,16 +34,15 @@ public class FogScript : MonoBehaviour
     void Start()
     {
       xCurr = this.transform.position.x;
-
-    }
+    } // end start
 
     IEnumerator Pause()
     {
-      pause = true;
+      pause = true; // pauses fixedupdate falling motion
       float waittime = Random.Range( 0.5f, 1.0f );
       yield return new WaitForSeconds(waittime);
       pause = false;
-    }
+    } // fin
 
     void Spawn(){
       Vector3 loc = Vector3.zero;
@@ -43,11 +52,8 @@ public class FogScript : MonoBehaviour
 
         this.transform.position = loc;
         xCurr = loc.x;
-    }
+    } // spawn the leaf at the top of the screen
 
-
-
-        // Update is called once per frame
         void FixedUpdate()
         {
           if (pause == false){
@@ -66,7 +72,7 @@ public class FogScript : MonoBehaviour
             Spawn();
             returne = false;
           } // fin
-        }
+        } // if pause is not false
 
         } // fixed update
 }

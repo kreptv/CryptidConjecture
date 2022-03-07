@@ -44,7 +44,7 @@ public class MenuSelectionScript : MonoBehaviour
         public Button r5_1;
     public GameObject backdrop;
 
-    public GameObject cryptids;
+    public GameObject cryptids; // container for all cryptids
     public GameObject cryptid1;
     public GameObject cryptid2;
     public GameObject cryptid3;
@@ -85,18 +85,18 @@ public class MenuSelectionScript : MonoBehaviour
     int yPosCurr = 0;
     public int yPosMax = 90;
     public float yeetAmount = 0.1f;
-    bool reverse = false;
+    bool reverse = false; // makes the yeet reverse directions
 
-    void testForProgress(){
+    void testForProgress(){ // run at startup and on reset to disable buttons + buttons that haven't been reached
       PlayerPrefs.GetInt("progress", 1);
 
     if (PlayerPrefs.HasKey("progress")) {
-            progress = PlayerPrefs.GetInt("progress");
-      }else {
-        progress = 1;
-      }
+            progress = PlayerPrefs.GetInt("progress"); // load progress
+    } else {
+      progress = 1; // no progress found somehow, set it to 1 manually
+    }
 
-    if (progress == 1){
+    if (progress == 1){ // first level
       cryptid1.SetActive(false);
       cryptid2.SetActive(false);
       cryptid3.SetActive(false);
@@ -107,7 +107,7 @@ public class MenuSelectionScript : MonoBehaviour
       r3.interactable = false;
       r4.interactable = false;
       r5.interactable = false;
-    } else if (progress == 2){
+    } else if (progress == 2){ // second level
       cryptid1.SetActive(true);
       cryptid2.SetActive(false);
       cryptid3.SetActive(false);
@@ -118,7 +118,7 @@ public class MenuSelectionScript : MonoBehaviour
       r3.interactable = false;
       r4.interactable = false;
       r5.interactable = false;
-    } else if (progress == 3){
+    } else if (progress == 3){ // third level
       cryptid1.SetActive(true);
       cryptid2.SetActive(true);
       cryptid3.SetActive(false);
@@ -129,7 +129,7 @@ public class MenuSelectionScript : MonoBehaviour
       r3.interactable = true;
       r4.interactable = false;
       r5.interactable = false;
-    } else if (progress == 4){
+    } else if (progress == 4){ // fourth level
       cryptid1.SetActive(true);
       cryptid2.SetActive(true);
       cryptid3.SetActive(true);
@@ -140,7 +140,7 @@ public class MenuSelectionScript : MonoBehaviour
       r3.interactable = true;
       r4.interactable = true;
       r5.interactable = false;
-    } else if (progress == 5){
+    } else if (progress == 5){ // fifth level
       cryptid1.SetActive(true);
       cryptid2.SetActive(true);
       cryptid3.SetActive(true);
@@ -151,7 +151,7 @@ public class MenuSelectionScript : MonoBehaviour
       r3.interactable = true;
       r4.interactable = true;
       r5.interactable = true;
-    } else if (progress == 6){
+    } else if (progress == 6){ // game beaten
       cryptid1.SetActive(true);
       cryptid2.SetActive(true);
       cryptid3.SetActive(true);
@@ -163,10 +163,8 @@ public class MenuSelectionScript : MonoBehaviour
       r4.interactable = true;
       r5.interactable = true;
     }
+  } // end test for progress
 
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
       directionalLight = directionalLightObject.GetComponent<Light>();
@@ -177,6 +175,7 @@ public class MenuSelectionScript : MonoBehaviour
 
       testForProgress();
 
+      // add all button listeners. when buttons are set as inactive, button listeners will not function.
       r1.onClick.AddListener(regionOneStoryPrompt);
       r1_1.onClick.AddListener(loadRegionOne);
       r2.onClick.AddListener(regionTwoStoryPrompt);
@@ -199,29 +198,28 @@ public class MenuSelectionScript : MonoBehaviour
       creditsok.onClick.AddListener(SetMenuActive);
       instructions.onClick.AddListener(instructionss);
       instructionsok.onClick.AddListener(SetMenuActive);
-    }
+    } // fin
 
     void eraseSaveDataa(){
       SetMenuInactive();
       eraseSaveDataPrompt.SetActive(true);
-    }
+    } // fin
 
-    void reset(){
+    void reset(){ // erase save data confirmed
       PlayerPrefs.SetInt("progress", 1);
+      testForProgress(); // retest for progress; reload scene
+      SetMenuActive(); // re-show stuff
+    } // fin
 
-      testForProgress();
-
-      SetMenuActive();
-    }
-
-    void creditss(){
+    void creditss(){ // show credits; enables creditsok
       SetMenuInactive();
       creditsPrompt.SetActive(true);
-    }
-    void instructionss(){
+    } // fin
+
+    void instructionss(){ // show instructions; enables instructionsok
       SetMenuInactive();
       instructionsPrompt.SetActive(true);
-    }
+    } // fin
 
 
     void SetMenuActive(){ // enables menu selection screen
@@ -230,28 +228,22 @@ public class MenuSelectionScript : MonoBehaviour
       oneContinue.SetActive(false); twoContinue.SetActive(false); threeContinue.SetActive(false); fourContinue.SetActive(false); fiveContinue.SetActive(false);
     } // fin
 
-    void SetMenuInactive(){ // disables menu selection screen
+    void SetMenuInactive(){ // disables menu selection screen for when there's a popup prompt or smthn
       cryptids.SetActive(false);
-      instructionsEncapsulator.SetActive(false); creditsEncapsulator.SetActive(false); eraseSaveDataEncapsulator.SetActive(false);
-      title.SetActive(false);
-      regionOne.SetActive(false);
-      regionTwo.SetActive(false);
-      regionThree.SetActive(false);
-      regionFour.SetActive(false);
-      regionFive.SetActive(false);
-      exitGameEncapsulator.SetActive(false);
+      instructionsEncapsulator.SetActive(false); creditsEncapsulator.SetActive(false); eraseSaveDataEncapsulator.SetActive(false); exitGameEncapsulator.SetActive(false);
+      title.SetActive(false); regionOne.SetActive(false); regionTwo.SetActive(false); regionThree.SetActive(false); regionFour.SetActive(false); regionFive.SetActive(false);
     } // fin
 
-    void yeetUp(GameObject b){
+    void yeetUp(GameObject b){ // yeet up
       b.transform.position = new Vector3(b.transform.position.x, b.transform.position.y+yeetAmount, b.transform.position.z);
     } // fin
 
-    void yeetDown(GameObject b){
+    void yeetDown(GameObject b){ // yeet down
       b.transform.position = new Vector3(b.transform.position.x, b.transform.position.y-yeetAmount, b.transform.position.z);
     } // fin
 
 
-    void FixedUpdate(){
+    void FixedUpdate(){ // make the levels move up and down to the beat
 
       if (yPosCurr == yPosMax){
         reverse = true;
@@ -272,7 +264,6 @@ public class MenuSelectionScript : MonoBehaviour
         yeetUp(title);
         yPosCurr --;
       } // fin
-
 
     } // fixed update
 
@@ -340,12 +331,4 @@ public class MenuSelectionScript : MonoBehaviour
       SceneManager.LoadScene("RegionFive");
     } // fin
 
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
-    }
 }

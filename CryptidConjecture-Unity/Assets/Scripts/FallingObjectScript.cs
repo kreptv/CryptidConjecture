@@ -1,3 +1,13 @@
+/*
+ * Created by: Haley Kelly
+ * Date Created: 2/23/2022
+ *
+ * Last Edited by: Haley Kelly
+ * Last Edited: 3/7/2022
+ *
+ * Description: Script that controls falling leaves that rotate.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,26 +32,25 @@ public class FallingObjectScript : MonoBehaviour
   public float yeetAmounty = 0.01f;
   public float yeetAmountx = 0.01f;
   private bool returne = false;
-  private bool pause = false;
+  private bool pause = false; // runs a coroutine that pauses the object before it begins to fall again
 
   private float rotateAmount;
 
-    // Start is called before the first frame update
     void Start()
     {
-      rotateAmount = Random.Range( 0.05f, 1f );
+      rotateAmount = Random.Range( 0.05f, 1f ); // randomize how much the leaf rotates
       yCurr = this.transform.position.y;
       xCurr = this.transform.position.x;
 
-    }
+    } // end start
 
     IEnumerator Pause()
     {
-      pause = true;
+      pause = true; // pauses fixedupdate falling motion
       float waittime = Random.Range( 0.5f, 5.0f );
       yield return new WaitForSeconds(waittime);
       pause = false;
-    }
+    } // fin
 
     void Spawn(){
       this.transform.rotation = rotStart;
@@ -54,11 +63,8 @@ public class FallingObjectScript : MonoBehaviour
         this.transform.position = loc;
         yCurr = loc.y;
         xCurr = loc.x;
-    }
+    } // spawn the leaf at the top of the screen
 
-
-
-        // Update is called once per frame
         void FixedUpdate()
         {
           if (pause == false){
@@ -80,7 +86,7 @@ public class FallingObjectScript : MonoBehaviour
             Spawn();
             returne = false;
           } // fin
-        }
+        } // if pause is not false
 
         } // fixed update
 }

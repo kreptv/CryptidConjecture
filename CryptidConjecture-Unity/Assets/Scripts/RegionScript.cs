@@ -2,7 +2,7 @@
  * Created by: Haley Kelly
  * Date Created: 2/23/2022
  *
- * Last Edited by: N/A
+ * Last Edited by: Haley Kelly
  * Last Edited: 3/6/2022
  *
  * Description: Script that controls independent regions for Cryptid Conjecture.
@@ -74,8 +74,6 @@ public class RegionScript : MonoBehaviour
   Quaternion rot1 = Quaternion.Euler(-215, 0, 0);
   Quaternion rot2 = Quaternion.Euler(-260, 0, 0);
 
-
-    // Start is called before the first frame update
     void Start()
     {
       directionalLight = directionalLightObject.GetComponent<Light>();
@@ -105,8 +103,7 @@ public class RegionScript : MonoBehaviour
       exitButtonEncapsulator.SetActive(true);
       calculateScore = true;
       score = 0;
-
-    }
+    } // fin
 
     IEnumerator fancyzoomin()
     {
@@ -115,8 +112,8 @@ public class RegionScript : MonoBehaviour
         //Debug.Log("test2");
         Camera.main.fieldOfView -= zoominstart;
         zoominstart -= 0.02f;
-      }
-    }
+      } // do a fancy zoom
+    } // fin
 
 
     void SetPegs(){
@@ -128,7 +125,7 @@ public class RegionScript : MonoBehaviour
         loc.z = 2;
 
         peges[i].transform.position = loc;
-      }
+      } // randomize all normal pegs
       peges = GameObject.FindGameObjectsWithTag ("fireflypeg");
       for(int i = 0 ; i < peges.Length ; i ++){
         loc.x = Random.Range( -3.00f, 5.00f );
@@ -136,7 +133,7 @@ public class RegionScript : MonoBehaviour
         loc.z = 2;
 
         peges[i].transform.position = loc;
-      }
+      } // randomize all firefly pegs
       peges = GameObject.FindGameObjectsWithTag ("barrierpeg");
       for(int i = 0 ; i < peges.Length ; i ++){
         loc.x = Random.Range( -3.00f, 5.00f );
@@ -144,8 +141,8 @@ public class RegionScript : MonoBehaviour
         loc.z = 2;
 
         peges[i].transform.position = loc;
-      }
-    }
+      } // randomize all barrier pegs
+    } // set pegs
 
 
     void ClearBalls(){
@@ -154,7 +151,7 @@ public class RegionScript : MonoBehaviour
       {
          Destroy(balles[i]);
       }
-    }
+    } // fin
 
 
     void Update(){
@@ -194,34 +191,30 @@ public class RegionScript : MonoBehaviour
           storyPrompt3.SetActive(true);
           SetGamePlayInactive();
         }
-            }
-            else if (ballsRemaining == 0 && (!(GameObject.Find("BallPrefab(Clone)")))){ // return to menu selection
-              Debug.Log("Lose condition met!");
-              loseGame();
-            }
-      }
-
-    }
+      } // requiredscore == 0
+          else if (ballsRemaining == 0 && (!(GameObject.Find("BallPrefab(Clone)")))){ // mission failed; return to menu selection
+          Debug.Log("Lose condition met!");
+          loseGame();
+        } // fin
+      } // if calculatescore is true
+    } // update
 
     void loseGame(){
       loseGamePrompt.SetActive(true);
       pauseScreen();
-    }
+    } // fin
 
     void pauseScreen(){
       calculateScore = false;
-    }
+    } // fin
 
 
     void FixedUpdate()
     {
       ballsRemainingText.text = ballsRemaining.ToString();
+    } // fin
 
-
-
-    }
-
-    void winGame(){
+    void winGame(){ // set progress depending on region
       Scene scene = SceneManager.GetActiveScene();
       if (scene.name == "RegionOne"){
         PlayerPrefs.SetInt("progress", 2);
@@ -234,23 +227,21 @@ public class RegionScript : MonoBehaviour
       } else if (scene.name == "RegionFive"){
         PlayerPrefs.SetInt("progress", 6);
       }
-    }
+    } // fin
 
     IEnumerator fancyzoomout()
     {
-
       for (int i = 0; i < 25; i++){
         yield return new WaitForSeconds(0.05f);
         Camera.main.fieldOfView += zoominstart;
         zoominstart += 0.02f;
-      }
+      } // zoom screen
       SceneManager.LoadScene("MenuScene");
-    }
+    } // fin
 
     void menu(){
       StartCoroutine(fancyzoomout());
-    }
-
+    } // fin
 
     void storyPromptContinuee1(){ // load second level
       exitButtonEncapsulator.SetActive(true);
@@ -260,7 +251,7 @@ public class RegionScript : MonoBehaviour
       storyPrompt1.SetActive(false);
       ballsRemaining = 8;
       SetGamePlayActive();
-    }
+    } // fin
 
     void storyPromptContinuee2(){ // load third level
       exitButtonEncapsulator.SetActive(true);
@@ -270,7 +261,7 @@ public class RegionScript : MonoBehaviour
       storyPrompt2.SetActive(false);
       ballsRemaining = 6;
       SetGamePlayActive();
-    }
+    } // fin
 
     void storyPromptContinuee3(){ // load cryptid discovery
       exitButtonEncapsulator.SetActive(true);
@@ -280,7 +271,7 @@ public class RegionScript : MonoBehaviour
       StartCoroutine(cryptidmovement());
       cryptidObtained.SetActive(true);
       winGame();
-    }
+    } // fin
 
     IEnumerator cryptidmovement()
     {
@@ -292,20 +283,20 @@ public class RegionScript : MonoBehaviour
         cryptid.transform.position = new Vector3(cryptid.transform.position.x+xstart, cryptid.transform.position.y-ystart, cryptid.transform.position.z);
         xstart -= 0.005f;
         ystart += 0.001f;
-      }
-    }
+      } // do a lil spinny as the cryptid appears
+    } // fin
 
     void SetGamePlayInactive(){
       ballShooter.SetActive(false);
       exitGameEncapsulator.SetActive(false);
       exitButtonEncapsulator.SetActive(true);
-    }
+    } // set gameplay inactive
 
     void SetGamePlayActive(){
       ballShooter.SetActive(true);
       exitGameEncapsulator.SetActive(false);
       exitButtonEncapsulator.SetActive(true);
-    }
+    } // set gameplay active
 
     void exitGameePrompt(){
       SetGamePlayInactive();
@@ -315,5 +306,5 @@ public class RegionScript : MonoBehaviour
 
     void exitGamee(){
       Application.Quit();
-    }
+    } // this literally just crashes in the webgl build
 }

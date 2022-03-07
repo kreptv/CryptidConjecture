@@ -2,7 +2,7 @@
  * Created by: Haley Kelly
  * Date Created: 2/23/2022
  *
- * Last Edited by: N/A
+ * Last Edited by: Haley Kelly
  * Last Edited: 2/23/2022
  *
  * Description: Script that controls pegs for Cryptid Conjecture.
@@ -17,7 +17,7 @@ public class PegScript : MonoBehaviour
 
   public Material Barrier2;
   public Material Barrier3;
-  
+
   public GameObject mainCamera;
 
     private int health = 1;
@@ -32,8 +32,6 @@ public class PegScript : MonoBehaviour
 
     private Rigidbody rb;
 
-
-    // Start is called before the first frame update
     void Start()
     {
 
@@ -44,26 +42,19 @@ public class PegScript : MonoBehaviour
         health = 3;
         yeetAmount = 0.005f;
         yPosMax = 100;
-      }
+      } // yeets a little; health == 3
       else if (gameObject.transform.CompareTag("normalpeg")){
         health = 1;
         yeetAmount = 0.005f;
         yPosMax = 100;
-      }
+      } // yeets a little; health == 1
       else if (gameObject.transform.CompareTag("fireflypeg")){
         health = 1;
         yeetAmount = 0.01f;
-      } // set yPosMax custom in editor
+      } // set yPosMax custom in editor; yeets a lot; health == 1
+    } // start fin
 
-
-
-
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-
+    void FixedUpdate() {
       if (yPosCurr >= yPosMax){
         reverse = true;
       } // fin
@@ -84,40 +75,38 @@ public class PegScript : MonoBehaviour
 
     } // fixed update
 
-    void OnCollisionEnter(Collision other)
-    {
+    void OnCollisionEnter(Collision other){
       if (other.transform.CompareTag("Ball")){
-
 
       if (gameObject.transform.CompareTag("normalpeg")){
         health --;
         if (health == 0){
           mainCamera.GetComponent<RegionScript>().score ++;
           Destroy(gameObject);
-        }
-      }
+        } // health is 0
+      } // normal peg
+
       else if (gameObject.transform.CompareTag("fireflypeg")){
         health --;
         if (health == 0){
           mainCamera.GetComponent<RegionScript>().score ++;
           Destroy(gameObject);
-        }
-      }
+        } // health is 0
+      } // firefly peg
+
       else if (gameObject.transform.CompareTag("barrierpeg")){
         health --;
         if (health == 2){
           gameObject.GetComponent<MeshRenderer>().material = Barrier2;
-        }
+        } // health is 2
         if (health == 1){
           gameObject.GetComponent<MeshRenderer>().material = Barrier3;
-        }
+        } // health is 1
         if (health == 0){
           mainCamera.GetComponent<RegionScript>().score ++;
           Destroy(gameObject);
-        }
-      }
-
-
-      }
+        } // health is 0
+      } // barrier peg
+    } // ball hit a peg
     } // on collision enter
 }

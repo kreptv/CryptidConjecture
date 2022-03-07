@@ -31,11 +31,6 @@ public class BallShooterScript : MonoBehaviour
     public Rigidbody projectileRB;
     private Vector3 mouseDelta;
 
-
-    private void Start(){
-    }
-
-
     private void Awake()
     {
         Transform launchPointTrans = transform.Find("SpawnPoint");
@@ -43,20 +38,20 @@ public class BallShooterScript : MonoBehaviour
         launchPoint = launchPointTrans.gameObject;
         launchPoint.SetActive(false);
         launchPos = launchPointTrans.position;
-    }
+    } // awake
 
 
     private void OnMouseEnter()
     {
         print("Slingshot: OnMouseEnter");
         launchPoint.SetActive(true);
-    }
+    } // on mouse enter
 
     private void OnMouseExit()
     {
         print("Slingshot: OnMouseExit");
         launchPoint.SetActive(false);
-    }
+    } // on mouse exit
 
     private void OnMouseDown()
     {
@@ -67,8 +62,8 @@ public class BallShooterScript : MonoBehaviour
             projectile.transform.position = launchPos;
             projectileRB = projectile.GetComponent<Rigidbody>();
             projectileRB.isKinematic = true;
-          }
-    }
+          } // if
+    } // on mouse down
 
     private void OnMouseUp()
     {
@@ -76,13 +71,12 @@ public class BallShooterScript : MonoBehaviour
         projectileRB.isKinematic = false;
         projectileRB.velocity = -mouseDelta * velocityMultiplier; // velocity x mousedelta
         aimingMode = false;
-      }
-    }
+      } // if
+    } // on mouse up
 
     // Update is called once per frame
     private void Update()
     {
-
       if (aimingMode == true){
 
         // get current mouse position
